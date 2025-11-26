@@ -1,0 +1,11 @@
+SELECT
+    d.driver_id,
+    d.age,
+    d.experience_years,
+    e.total_earnings
+FROM drivers d
+JOIN (
+    SELECT driver_id, SUM(fare) AS total_earnings
+    FROM riders
+    GROUP BY driver_id
+) e ON d.driver_id = e.driver_id;
