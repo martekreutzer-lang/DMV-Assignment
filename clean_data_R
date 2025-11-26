@@ -1,0 +1,56 @@
+install.packages("tidyverse")
+install.packages("janitor")
+install.packages("skimr")
+
+library(tidyverse)  
+library(janitor)   
+library(skimr)   
+
+
+raw <- read_csv(
+  "Rides_Data.csv",
+  na = c("", "NA")
+)
+
+skimr::skim(raw)
+
+dplyr::glimpse(raw)
+
+dim(raw); names(raw); skim(raw); str(raw)
+
+anyDuplicated(names(raw))
+
+raw <- raw %>%
+  mutate(Promo_Code = replace_na(Promo_Code, "NO_PROMO"))
+
+raw2<- read_csv(
+  "Drivers_Data.csv",
+  na = c("", "NA")
+)
+
+#seeing which drivers receive some of the highest ratings among longer drives
+longdistance <-  raw %>% filter(Rating>=4.8) %>% arrange(desc(Distance_km)) %>% head(10) 
+
+#observing drivers' performance taking the experience also into consideration 
+drivers <- raw2 %>%
+  group_by(City) %>%
+  summarise(
+    number_of_drivers     = n_distinct(Driver_ID),   
+    average_rating = mean(Average_Rating, na.rm = TRUE),  
+    median_experience   = median(Experience_Years, na.rm = TRUE)
+  ) %>% arrange(desc(Average_Rating)) %>%
+  ungroup()
+
+ 
+ #comparing active and inactive drivers per city 
+ active <- raw2 %>%
+    group_by(City) %>%
+    summarise(
+      n             = n(),
+      active   = sum(Active_Status == "Active", na.rm = TRUE),
+      inactive = sum(Active_Status == "Inactive", na.rm = TRUE)
+    ) %>% 
+    ungroup()  
+
+ 
+ write_csv(raw, "Rides_Data_clean.csv")
