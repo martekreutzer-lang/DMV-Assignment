@@ -1,0 +1,11 @@
+SELECT
+    COALESCE(city, 'ALL_CITIES') AS city,
+    date,
+    COUNT(*) AS rides_per_day,
+    ROUND(SUM(fare), 2) AS revenue_per_day
+FROM riders
+GROUP BY GROUPING SETS (
+    (city, date),
+    (date)          
+)
+ORDER BY date, city;
