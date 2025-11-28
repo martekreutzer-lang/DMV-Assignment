@@ -1,0 +1,9 @@
+SELECT
+    city,
+    COUNT(*) AS total_rides,
+    COUNT(promo_code) AS rides_with_promo,
+    COUNT(*) - COUNT(promo_code) AS rides_without_promo,
+    ROUND( (COUNT(promo_code)::numeric / COUNT(*)) * 100, 2 ) AS promo_usage_percent
+FROM riders
+GROUP BY city
+ORDER BY promo_usage_percent DESC;
