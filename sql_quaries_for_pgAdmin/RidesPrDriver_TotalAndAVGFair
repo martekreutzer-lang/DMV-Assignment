@@ -1,0 +1,12 @@
+SELECT
+    d.driver_id,
+    d.name,
+    d.city,
+    SUM(r.distance_km) AS total_distance_km,
+    COUNT(*) AS total_rides,
+    SUM(r.fare) AS total_fare,
+    ROUND(AVG(r.fare), 2) AS avg_fare_per_ride
+FROM drivers d
+JOIN riders r ON d.driver_id = r.driver_id
+GROUP BY d.driver_id, d.name, d.city
+ORDER BY avg_fare_per_ride DESC;
