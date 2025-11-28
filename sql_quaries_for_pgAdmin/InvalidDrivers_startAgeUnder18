@@ -1,0 +1,9 @@
+SELECT
+    driver_id,
+    name,
+    age,
+    city,
+    experience_years,
+    (age - experience_years) AS start_age
+FROM drivers
+ORDER BY start_age ASC;
