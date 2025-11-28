@@ -1,0 +1,10 @@
+SELECT
+    city,
+    SUM(fare) AS Total_Revenue,
+    ROUND(
+        SUM(fare) * 100.0 / SUM(SUM(fare)) OVER (), 
+        2
+    ) AS Revenue_Percentage
+FROM riders
+GROUP BY city
+ORDER BY total_revenue DESC;
