@@ -1,0 +1,12 @@
+SELECT
+    COALESCE(city, 'OVERALL') AS city,
+    ROUND(AVG(rating), 2)     AS avg_rating,
+    MIN(rating)               AS min_rating,
+    MAX(rating)               AS max_rating,
+    COUNT(*)                  AS number_of_rides
+FROM riders
+GROUP BY GROUPING SETS (
+    (city),
+    ()
+)
+ORDER BY city
