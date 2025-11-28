@@ -1,0 +1,7 @@
+SELECT
+    city,
+    date,
+    COUNT(*) AS rides_per_city_day
+FROM riders
+GROUP BY city, date
+ORDER BY city, date;
