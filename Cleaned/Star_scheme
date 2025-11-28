@@ -1,0 +1,93 @@
+library(dplyr)
+library(tidyr)
+library(lubridate)
+library(readr)
+
+setwd("/Users/kaiarognaldsen/Documents/Master CBS/Data Management and Visualization/Final exam assignment")
+
+stg_rides <- read_csv("Rides_Data_clean.csv")
+stg_drivers <- read_csv("Drivers_Data.csv")
+
+stg_rides <- stg_rides %>%
+  mutate(
+    Date = as.Date(Date, format = "%m/%d/%Y")
+  )
+
+Dim_Driver <- stg_drivers %>%
+  distinct(Driver_ID, Name, Age, City, Experience_Years,
+           Average_Rating, Active_Status) %>%
+  mutate(Driver_Key = row_number()) %>%
+  select(Driver_Key, everything())
+
+Dim_City <- bind_rows(
+  stg_rides %>% select(City),
+  stg_drivers %>% select(City)
+) %>%
+  distinct() %>%
+  mutate(City_Key = row_number()) %>%
+  select(City_Key, City_Name = City)
+
+Dim_City <- bind_rows(
+  stg_rides %>% select(City),
+  stg_drivers %>% select(City)
+) %>%
+  distinct() %>%
+  mutate(City_Key = row_number()) %>%
+  select(City_Key, City_Name = City)
+
+Dim_Date <- stg_rides %>%
+  filter(!is.na(Date)) %>%        # drop any truly missing dates
+  distinct(Date) %>%
+  arrange(Date) %>%               # nice chronological order
+  rename(Full_Date = Date) %>%
+  mutate(
+    Day         = day(Full_Date),
+    Month       = month(Full_Date),
+    Month_Name  = month(Full_Date, label = TRUE, abbr = FALSE),
+    Year        = year(Full_Date),
+    Week_Number = isoweek(Full_Date),
+    Day_Of_Week = wday(Full_Date, label = TRUE, abbr = FALSE)
+  ) %>%
+  mutate(Date_Key = row_number()) %>%
+  select(Date_Key, Full_Date, Day, Month, Month_Name,
+         Year, Week_Number, Day_Of_Week)
+
+
+Dim_Promo <- stg_rides %>%
+  distinct(Promo_Code) %>%
+  mutate(
+    Is_No_Promo = if_else(is.na(Promo_Code) | Promo_Code == "", 1, 0),
+    Promo_Key = row_number()
+  ) %>%
+  select(Promo_Key, Promo_Code, Is_No_Promo)
+
+Fact_Ride <- stg_rides %>%
+  left_join(Dim_Driver %>% select(Driver_Key, Driver_ID),
+            by = "Driver_ID") %>%
+  left_join(Dim_Date %>% select(Date_Key, Full_Date),
+            by = c("Date" = "Full_Date")) %>%
+  left_join(Dim_City %>% select(City_Key, City_Name),
+            by = c("City" = "City_Name")) %>%
+  left_join(Dim_Promo %>% select(Promo_Key, Promo_Code),
+            by = "Promo_Code") %>%
+  select(
+    Ride_ID,
+    Driver_Key,
+    Date_Key,
+    City_Key,
+    Promo_Key,
+    Distance_km,
+    Duration_min,
+    Fare,
+    Rating
+  )
+
+# Create a folder for the output (won’t give an error if it already exists)
+dir.create("StarSchema_Output", showWarnings = FALSE)
+
+# Save each table to the folder
+write_csv(Dim_Driver, "StarSchema_Output/Dim_Driver.csv")
+write_csv(Dim_City, "StarSchema_Output/Dim_City.csv")
+write_csv(Dim_Date, "StarSchema_Output/Dim_Date.csv")
+write_csv(Dim_Promo, "StarSchema_Output/Dim_Promo.csv")
+write_csv(Fact_Ride, "StarSchema_Output/Fact_Ride.csv")
