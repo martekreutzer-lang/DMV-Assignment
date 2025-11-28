@@ -1,0 +1,9 @@
+SELECT
+    city,
+    ROUND(AVG(fare), 2) AS avg_fare,
+    ROUND(AVG(fare / NULLIF(distance_km, 0)), 2) AS avg_fare_per_km,
+    ROUND(AVG(fare / NULLIF(duration_min, 0)), 2) AS avg_fare_per_min,
+    COUNT(*) AS num_rides
+FROM riders
+GROUP BY city
+ORDER BY avg_fare_per_km DESC;
