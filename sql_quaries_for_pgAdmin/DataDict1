@@ -1,0 +1,47 @@
+SELECT 
+    'Driver_ID' AS column_name,
+    'Integer' AS type,
+    'Unique identifier for each driver' AS description,
+    'Unique, non-null' AS expected_value
+
+UNION ALL
+SELECT 
+    'Name',
+    'Text',
+    'Full name of driver',
+    'Any string'
+
+UNION ALL
+SELECT 
+    'Age',
+    'Integer',
+    'Age of driver',
+    '18 to 75'
+
+UNION ALL
+SELECT 
+    'City',
+    'Categorical',
+    'Primary operating city',
+    'Either NYC, LA, San Fran, Chicago, Miami'
+
+UNION ALL
+SELECT 
+    'Experience_Years',
+    'Integer',
+    'Years professional driving experience',
+    '> 0'
+
+UNION ALL
+SELECT 
+    'Average_Rating',
+    'Numeric',
+    'Drivers lifetime average rating',
+    '1 to 5'
+
+UNION ALL
+SELECT 
+    'Active_Status',
+    'Categorical',
+    'Employment status',
+    'active or inactive';
