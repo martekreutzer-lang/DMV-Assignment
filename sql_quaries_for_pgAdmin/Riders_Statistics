@@ -1,0 +1,27 @@
+SELECT 'Mean' AS metric,
+       ROUND(AVG(distance_km), 2)  AS distance_km,
+       ROUND(AVG(duration_min), 2) AS duration_min,
+       ROUND(AVG(fare), 2)         AS fare,
+       ROUND(AVG(rating), 2)       AS rating
+FROM riders
+UNION ALL
+SELECT 'StdDeviation',
+       ROUND(STDDEV(distance_km), 2),
+       ROUND(STDDEV(duration_min), 2),
+       ROUND(STDDEV(fare), 2),
+       ROUND(STDDEV(rating), 2)
+FROM riders
+UNION ALL
+SELECT 'Min',
+       MIN(distance_km),
+       MIN(duration_min),
+       MIN(fare),
+       MIN(rating)
+FROM riders
+UNION ALL
+SELECT 'Max',
+       MAX(distance_km),
+       MAX(duration_min),
+       MAX(fare),
+       MAX(rating)
+FROM riders;
