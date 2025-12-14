@@ -1,0 +1,26 @@
+SELECT 'Mean' AS metric,
+       ROUND(AVG(age), 2)               AS age,
+       ROUND(AVG(experience_years), 2)  AS experience_years,
+       ROUND(AVG(average_rating), 2)    AS average_rating
+FROM drivers
+
+UNION ALL
+SELECT 'StdDeviation',
+       ROUND(STDDEV(age), 2),
+       ROUND(STDDEV(experience_years), 2),
+       ROUND(STDDEV(average_rating), 2)
+FROM drivers
+
+UNION ALL
+SELECT 'Min',
+       MIN(age),
+       MIN(experience_years),
+       MIN(average_rating)
+FROM drivers
+
+UNION ALL
+SELECT 'Max',
+       MAX(age),
+       MAX(experience_years),
+       MAX(average_rating)
+FROM drivers;
