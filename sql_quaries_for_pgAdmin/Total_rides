@@ -1,3 +1,0 @@
-SELECT
-    Count(*) AS Total_rides
-FROM riders;

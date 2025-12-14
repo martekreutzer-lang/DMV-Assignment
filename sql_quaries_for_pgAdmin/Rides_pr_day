@@ -1,0 +1,6 @@
+SELECT
+    city,
+    COUNT(ride_id) AS ride_count
+FROM riders
+GROUP BY city
+ORDER BY ride_count DESC;
