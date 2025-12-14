@@ -6,4 +6,5 @@ SELECT
     experience_years,
     (age - experience_years) AS start_age
 FROM drivers
+WHERE (age - experience_years) <= 17
 ORDER BY start_age ASC;
