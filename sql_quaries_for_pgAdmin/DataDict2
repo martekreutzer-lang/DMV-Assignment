@@ -1,0 +1,61 @@
+SELECT 
+    'Ride_ID' AS column_name,
+    'Integer' AS type,
+    'Unique identifier for each ride' AS description,
+    'Unique, non-null' AS expected_value
+
+UNION ALL
+SELECT 
+    'Driver_ID',
+    'Integer',
+    'ID for each driver',
+    'Must match existing driver ID'
+
+UNION ALL
+SELECT 
+    'City',
+    'Categorical (text)',
+    'City where ride took place',
+    'Either NYC, LA, San Fran, Chicago, Miami'
+
+UNION ALL
+SELECT 
+    'Date',
+    'Date',
+    'Date of ride',
+    '01/11/2024 to 30/11/2024'
+
+UNION ALL
+SELECT 
+    'Distance_km',
+    'Numeric',
+    'Distance during drive (km)',
+    '> 0'
+
+UNION ALL
+SELECT 
+    'Duration_min',
+    'Numeric',
+    'Duration of drive (min)',
+    '> 0'
+
+UNION ALL
+SELECT 
+    'Fare',
+    'Numeric',
+    'Fare charged for the ride (USD)',
+    '> 0, roughly proportional to distance and duration'
+
+UNION ALL
+SELECT 
+    'Rating',
+    'Numeric',
+    'Customer rating',
+    '1 to 5'
+
+UNION ALL
+SELECT 
+    'Promo_Code',
+    'Categorical (text)',
+    'Promotion code used',
+    'WELCOME5, DISCOUNT10, SAVE20, NO_PROMO';
