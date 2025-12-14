@@ -7,7 +7,7 @@ SELECT
     duration_min,
     fare,
     rating,
-    promo_code
+    COALESCE(promo_code, 'NO_PROMO') AS promo_code
 FROM riders
 WHERE ride_id IN (
     29, 131, 299, 615, 618, 721,
