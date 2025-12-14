@@ -1,0 +1,16 @@
+SELECT
+    ride_id,
+    driver_id,
+    city,
+    date,
+    distance_km,
+    duration_min,
+    fare,
+    rating,
+    promo_code
+FROM riders
+WHERE ride_id IN (
+    29, 131, 299, 615, 618, 721,
+    754, 840, 859, 876, 894, 962
+)
+ORDER BY ride_id;
