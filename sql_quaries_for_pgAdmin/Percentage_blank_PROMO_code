@@ -1,0 +1,9 @@
+SELECT
+    CONCAT(
+        ROUND(
+            COUNT(*) FILTER (WHERE promo_code IS NULL) * 100.0 / COUNT(*),
+            0
+        ),
+        '%'
+    ) AS percent_blank
+FROM riders;
