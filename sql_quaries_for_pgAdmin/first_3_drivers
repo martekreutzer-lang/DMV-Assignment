@@ -1,0 +1,11 @@
+SELECT
+    driver_id,
+    name,
+    age,
+    city,
+    experience_years,
+    average_rating,
+    active_status
+FROM drivers
+WHERE driver_id IN (101, 102, 103)
+ORDER BY driver_id;
