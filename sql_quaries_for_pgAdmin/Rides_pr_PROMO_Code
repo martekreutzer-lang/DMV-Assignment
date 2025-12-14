@@ -1,0 +1,6 @@
+SELECT
+    promo_code,
+    COUNT(ride_id) AS ride_count
+FROM riders
+GROUP BY promo_code
+ORDER BY ride_count DESC;
